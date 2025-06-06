@@ -4,28 +4,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Angel Store</title>
+  <title>List Produk StudyNeeds - Angel Store</title>
   <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Comic Neue', cursive;
-      background-color: #fdf2f2;
+      background-color: #fff1f2;
       margin: 0;
       padding: 0;
     }
     header {
-      background-color: #7e3f3f;
+      background-color: #882f3f;
       color: white;
       padding: 1rem;
       text-align: center;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
     }
     .container {
-      max-width: 700px;
+      max-width: 800px;
       margin: 20px auto;
       background: white;
       padding: 20px;
-      border-radius: 15px;
+      border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.08);
     }
     .controls input, .controls button {
@@ -39,8 +39,8 @@
       border: 1px solid #ccc;
       border-radius: 10px;
       padding: 10px;
-      margin-bottom: 10px;
-      background-color: #fff8f8;
+      margin-bottom: 12px;
+      background-color: #fff9fa;
     }
     .produk img {
       max-height: 100px;
@@ -58,6 +58,15 @@
     .hapus { background: #ff6b6b; color: white; }
     .edit { background: #ffeaa7; }
     .save { background: #55efc4; }
+    .harga {
+      display: block;
+      margin: 10px 0;
+      font-size: 1rem;
+    }
+    .harga span {
+      font-weight: bold;
+      color: #c0392b;
+    }
     .swipe-container {
       display: flex;
       overflow-x: auto;
@@ -81,7 +90,7 @@
   </style>
 </head>
 <body>
-  <header>StudyNeeds by Angel Store</header>
+  <header>List Produk StudyNeeds Angel Store - create by Angelika Simbolon</header>
   <div class="container">
     <div class="controls">
       <input type="text" id="searchInput" placeholder="Cari produk..." oninput="renderProduk()"/>
@@ -95,40 +104,40 @@
 
   <script>
     let produkData = JSON.parse(localStorage.getItem("produkData")) || [
-      { nama: "cek turnitin", images: [] },
-      { nama: "cek ai english", images: [] },
-      { nama: "cek ai indo", images: [] },
-      { nama: "translate file (deepl)", images: [] },
-      { nama: "unlock docs", images: [] },
-      { nama: "akun chatgpt plus", images: [] },
-      { nama: "akun turnitin biasa", images: [] },
-      { nama: "akun turnitin cek ai", images: [] },
-      { nama: "akun gptzero", images: [] },
-      { nama: "akun deepl pro", images: [] },
-      { nama: "scite ai", images: [] },
-      { nama: "quillbot", images: [] },
-      { nama: "duolingo", images: [] },
-      { nama: "grammarly", images: [] },
-      { nama: "consensus ai", images: [] },
-      { nama: "smallpdf", images: [] },
-      { nama: "numerade", images: [] },
-      { nama: "humata ai", images: [] },
-      { nama: "perplexity ai", images: [] },
-      { nama: "connected papers", images: [] },
-      { nama: "scribd", images: [] },
-      { nama: "wps office", images: [] },
-      { nama: "gamma ai", images: [] },
-      { nama: "canva", images: [] },
-      { nama: "picsart", images: [] },
-      { nama: "vidio prime", images: [] },
-      { nama: "viu", images: [] },
-      { nama: "cek nomor gtc", images: [] },
-      { nama: "koin line", images: [] },
-      { nama: "busuu", images: [] },
-      { nama: "blackbox ai", images: [] }
+      { nama: "cek turnitin", harga: "", images: [] },
+      { nama: "cek ai english", harga: "", images: [] },
+      { nama: "cek ai indo", harga: "", images: [] },
+      { nama: "translate file (deepl)", harga: "", images: [] },
+      { nama: "unlock docs", harga: "", images: [] },
+      { nama: "akun chatgpt plus", harga: "", images: [] },
+      { nama: "akun turnitin biasa", harga: "", images: [] },
+      { nama: "akun turnitin cek ai", harga: "", images: [] },
+      { nama: "akun gptzero", harga: "", images: [] },
+      { nama: "akun deepl pro", harga: "", images: [] },
+      { nama: "scite ai", harga: "", images: [] },
+      { nama: "quillbot", harga: "", images: [] },
+      { nama: "duolingo", harga: "", images: [] },
+      { nama: "grammarly", harga: "", images: [] },
+      { nama: "consensus ai", harga: "", images: [] },
+      { nama: "smallpdf", harga: "", images: [] },
+      { nama: "numerade", harga: "", images: [] },
+      { nama: "humata ai", harga: "", images: [] },
+      { nama: "perplexity ai", harga: "", images: [] },
+      { nama: "connected papers", harga: "", images: [] },
+      { nama: "scribd", harga: "", images: [] },
+      { nama: "wps office", harga: "", images: [] },
+      { nama: "gamma ai", harga: "", images: [] },
+      { nama: "canva", harga: "", images: [] },
+      { nama: "picsart", harga: "", images: [] },
+      { nama: "vidio prime", harga: "", images: [] },
+      { nama: "viu", harga: "", images: [] },
+      { nama: "cek nomor gtc", harga: "", images: [] },
+      { nama: "koin line", harga: "", images: [] },
+      { nama: "busuu", harga: "", images: [] },
+      { nama: "blackbox ai", harga: "", images: [] }
     ];
     let showAll = false;
-    let showX = false;
+    let showXIndex = null;
 
     function simpanData() {
       localStorage.setItem("produkData", JSON.stringify(produkData));
@@ -156,7 +165,7 @@
       const input = document.getElementById("newProductName");
       const nama = input.value.trim();
       if (!nama) return;
-      produkData.push({ nama, images: [] });
+      produkData.push({ nama, harga: "", images: [] });
       input.value = "";
       simpanData();
       renderProduk();
@@ -174,6 +183,15 @@
       const newName = prompt("Edit nama produk:", produkData[index].nama);
       if (newName) {
         produkData[index].nama = newName;
+        simpanData();
+        renderProduk();
+      }
+    }
+
+    function editHarga(index) {
+      const newHarga = prompt("Edit harga:", produkData[index].harga || "");
+      if (newHarga !== null) {
+        produkData[index].harga = newHarga;
         simpanData();
         renderProduk();
       }
@@ -224,16 +242,18 @@
           imgHTML += `
             <div>
               <img src="${p.images[j]}" />
-              ${showX ? `<button class='hapus-gambar' onclick='hapusGambar(${i}, ${j})'>x</button>` : ''}
+              ${showXIndex === i ? `<button class='hapus-gambar' onclick='hapusGambar(${i}, ${j})'>x</button>` : ''}
             </div>`;
         }
         div.innerHTML = `<b>${p.nama}</b>
+          <div class="harga">Harga: <span>${p.harga || '(belum diisi)'}</span></div>
           <div class="swipe-container">${imgHTML}</div>
           <div class="actions">
             <button class="edit" onclick="editProduk(${i})">Edit</button>
             <button class="hapus" onclick="hapusProduk(${i})">Hapus</button>
+            <button class="edit" onclick="editHarga(${i})">Edit Harga</button>
             <button class="save" onclick="uploadGambar(${i})">Upload Gambar</button>
-            <button class="hapus" onclick="showX = !showX; renderProduk();">Hapus Gambar</button>
+            <button class="hapus" onclick="showXIndex = (showXIndex === ${i} ? null : ${i}); renderProduk();">Hapus Gambar</button>
           </div>`;
         list.appendChild(div);
       });
